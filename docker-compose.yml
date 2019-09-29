@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+     - "./var/mysql:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: 'gpsTrips'
+      MYSQL_USER: 'gpsTrips'
+      MYSQL_PASSWORD: 'gpsTrips'
+      MYSQL_ROOT_PASSWORD: 'gpsTrips'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
