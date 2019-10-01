@@ -4,8 +4,12 @@ namespace App\Command;
 
 use App\Service\ResultSetService;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use const STR_PAD_LEFT;
+use const STR_PAD_RIGHT;
 
 class GPSTripsResult extends Command
 {
@@ -33,33 +37,29 @@ class GPSTripsResult extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->printHeaders($output);
-        $this->printRows($output);
+        $table = new Table($output);
+        $tableStyle = new TableStyle();
+        $tableStyle->setPadType(STR_PAD_LEFT);
+        $table->setStyle($tableStyle);
+
+        $table
+            ->setHeaders(['trip', 'distance', 'measure interval', 'avg speed'])
+            ->setRows($this->printRows());
+        $table->render();
     }
 
-    private function printHeaders(OutputInterface $output)
-    {
-        $output->writeln('+--------+----------+------------------+-----------+!');
-        $output->writeln('| trip   | distance | measure interval | avg speed  |');
-        $output->writeln('+--------+----------+------------------+-----------+!');
-    }
-
-    private function printRows(OutputInterface $output)
+    private function printRows()
     {
         $resultSetCollection = $this->resultSetService->prepareResult();
+        $rows = [];
         foreach ($resultSetCollection as $resultSet) {
-            $output->writeln
-            (
-                sprintf
-                (
-                    '| %s |     %s |               %s |         %s |',
-                    $resultSet->getTrip(),
-                    $resultSet->getDistance(),
-                    $resultSet->getMeasureInterval(),
-                    $resultSet->getAvgSpeed()
-                )
-            );
-            $output->writeln('+--------+----------+------------------+-----------+!');
+            $rows[] = [
+                $resultSet->getTrip(),
+                $resultSet->getDistance(),
+                $resultSet->getMeasureInterval(),
+                $resultSet->getAvgSpeed(),
+            ];
         }
+        return $rows;
     }
 }
