@@ -3,8 +3,8 @@
 
 namespace App\Model\Builder;
 
-use App\Model\Factory\ResultSetFactoryInterface;
 use App\Model\TripsInterface;
+use App\Model\Factory\ResultSetFactory;
 use InvalidArgumentException;
 
 /**
@@ -16,15 +16,15 @@ class ResultSetBuilder extends AbstractBuilder
 {
 
     /**
-     * @var ResultSetFactoryInterface
+     * @var ResultSetFactory
      */
     private $resultSetFactory;
 
     /**
      * ResultSetBuilder constructor.
-     * @param ResultSetFactoryInterface $resultSetFactory
+     * @param ResultSetFactory $resultSetFactory
      */
-    public function __construct(ResultSetFactoryInterface $resultSetFactory)
+    public function __construct(ResultSetFactory $resultSetFactory)
     {
         $this->resultSetFactory = $resultSetFactory;
     }
@@ -41,7 +41,7 @@ class ResultSetBuilder extends AbstractBuilder
         $measureInterval = $this->resultDTO->getMeasureInterval($trip);
         $avgSpeed = $this->resultDTO->getAvgSpeed($trip);
 
-        $resultSet = $this->resultSetFactory->factory();
+        $resultSet = $this->resultSetFactory->create();
         $resultSet->setTrip($tripName);
         $resultSet->setDistance($distance);
         $resultSet->setMeasureInterval($measureInterval);

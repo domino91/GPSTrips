@@ -1,10 +1,13 @@
 
 ###> symfony/framework-bundle ###
+.idea/
 /.env.local
 /.env.local.php
 /.env.*.local
 /public/bundles/
-/var/
+/var/cache/*
+/var/log/*
+/var/mysql/*
 /vendor/
 ###< symfony/framework-bundle ###
 

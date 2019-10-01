@@ -11,9 +11,9 @@ use App\Model\ResultSetInterface;
  * @codeCoverageIgnore
  * @package App\Model\Factory
  */
-class ResultSetFactory implements ResultSetFactoryInterface
+class ResultSetFactory
 {
-    public function factory(): ResultSetInterface
+    public function create(): ResultSetInterface
     {
         return new ResultSet();
     }
